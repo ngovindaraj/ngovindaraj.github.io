@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Loan Analysis</title>
+    <meta charset="UTF-8">
+    <link href="bootstrapQ.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Lato:200,400' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="dc.css"/>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+</head>
+<style>
+    /* testing out d3 tooltip */
+    .d3-tip {
+      line-height: 1;
+      font-weight: bold;
+      padding: 12px;
+      background: rgba(0, 0, 0, 0.8);
+      color: #fff;
+      border-radius: 8px;
+    }
+
+    /* Creates a small triangle extender for the tooltip */
+    .d3-tip:after {
+      box-sizing: border-box;
+      display: inline;
+      font-size: 10px;
+      width: 100%;
+      line-height: 1;
+      color: rgba(0, 0, 0, 0.8);
+      content: "\25BC";
+      position: absolute;
+      text-align: center;
+    }
+
+    /* Style northward tooltips differently */
+    .d3-tip.n:after {
+      margin: -1px 0 0 0;
+      top: 100%;
+      left: 0;
+    }
+
+    body {
+        font-size: 16px;
+        line-height: 20px;
+    color: #525252;
+    margin-top: 100px;
+
+    }
+
+    h3 {
+        font-family: "Helvetica Neue";
+    }
+
+   #count-reset-row {
+    width: 100%;
+   }
+   #dti-chart {
+     width: 250px;
+     font-family: 'Lato', futura, georgia;
+   }
+   #length_credit_history-chart {
+     width: 250px;
+     font-family: 'Lato', futura, georgia;
+   }
+   #addr_state-chart {
+     width: 250px;
+     font-family: 'Lato', futura, georgia;
+   }
+   #annual_inc-chart {
+     width: 250px;
+     font-family: 'Lato', futura, georgia;
+   }
+   #int_rate-chart {
+     width: 350px;
+     font-family: 'Lato', futura, georgia;
+   }
+   #loan_amount-chart {
+     width: 350px;
+     font-family: 'Lato', futura, georgia;
+   }
+   #risky_applicant-chart {
+     width: 250px;
+     font-family: 'Lato', futura, georgia;
+   }
+   #data-count-top {
+     width: 100%;
+   }
+
+   .navbar-text-q {
+     font: 400 24px "Helvetica Neue";
+     vertical-align: middle;
+   }
+    #data-table {
+      padding-top: 10px;
+    }
+
+    #data-count-bottom {
+      padding-top: 30px;
+    }
+
+    #loan-container {
+        margin-top: 46px;
+        max-width: 1100px;
+    }
+
+    span.filter {
+        font-size: 14px;
+        color: #cc4c02;
+        font-weight: 500;
+    }
+
+    span.filter-count {
+        color: #428BCA;
+        font-weight: bold;
+        width: 20px;
+        font-size: 18px;
+    }
+
+    span.total-count {
+        color: #525252;
+        font-weight: bold;
+        width: 20px;
+    }
+
+    span.reset {
+        font-size: 12px;
+        color: #cc4c02;
+    }
+
+    span.company-desc {
+        color: #525252;
+        font-size: 16px;
+        font-weight: normal;
+    }
+
+    span.chart-footnotes {
+        font: 200 14px "Helvetica Neue";
+        stroke: #969696;
+    }
+
+    span.exit-desc {
+        background-color: yellow;
+    }
+
+    #reset-all {
+        color: #CC4C02;
+    }
+
+    tr.header {
+        color: #696969;
+    }
+
+    tr {
+        font: 100 14px 'Lato';
+        color: #969696;
+    }
+
+</style>
+<body>
+  <h2 class="element"></h2>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Loan Dashboard</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+        <!-- Modal Box-->
+
+<div class="container" id="loan-container">
+
+         <div id="data-count-top" class="row">
+                <span class="filter-count"></span> selected out of <span class="total-count"></span> records |&nbsp;
+                <span id="reset-all">
+                    <a href="javascript:dc.filterAll();dc.redrawAll();">Reset ALL Filters</a>
+                </span>
+                 <p>
+            </div>
+
+	 <div class="row">
+      <div id="risky_applicant-chart" class = "col-md-5">
+          <strong>Is applicant risky ?</strong>
+          <a class="reset" href="javascript:risky_applicantChart.filterAll();dc.redrawAll();" style="display: none;"> | reset</a><br>
+          <div class="clearfix"></div>
+      </div>
+	    <div id="dti-chart" class = "col-md-4">
+          <strong>Debt to Income Ratio</strong>
+          <a class="reset" href="javascript:dtiChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+          <div class="clearfix"></div>
+      </div>
+      <div id="length_credit_history-chart" class = "col-md-4">
+          <strong>Credit History Length</strong>
+          <a class="reset" href="javascript:length_credit_historyChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+          <div class="clearfix"></div>
+      </div>
+      <div id="annual_inc-chart" class = "col-md-4">
+          <strong>Annual Income</strong>
+          <a class="reset" href="javascript:annual_incChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+          <div class="clearfix"></div>
+      </div>
+    </div>
+  	<div class="row">
+      <div id="int_rate-chart" class = "col-md-4">
+          <strong>Interest Rate</strong>
+          <a class="reset" href="javascript:int_rateChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+          <div class="clearfix"></div>
+      </div>
+      <div id="loan_amount-chart" class = "col-md-4">
+          <strong>Loan Amount</strong>
+          <a class="reset" href="javascript:loan_amountChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+          <div class="clearfix"></div>
+      </div>
+      <div id="addr_state-chart" class = "col-md-4">
+          <strong> State</strong>
+          <a class="reset" href="javascript:addr_stateChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+          <div class="clearfix"></div>
+      </div>
+    </div>
+    <div id="data-count-bottom" class="row" style="margin-bottom:20px;">
+      <span class="filter-count"></span> selected out of <span class="total-count"></span> records |&nbsp;
+      <span id="reset-all">
+        <a href="javascript:dc.filterAll();dc.redrawAll();">Reset ALL Filters</a>
+      </span>
+    </div>
+    <div id="data-table" style="height:500px; overflow:auto;clear:both;">
+      <table class="table table-hover dc-data-table">
+        <thead>
+          <tr class="header">
+            <th>DTI</th>
+            <th>Credit History length</th>
+            <th>US State</th>
+            <th>Annual income</th>
+            <th>Interest rate</th>
+            <th>Loan amount</th>
+            <th>Is Risky applicant</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+  </div>
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.7/crossfilter.min.js"></script>
+<script type="text/javascript" src="dc.js"></script>
+<script type="text/javascript" src="d3.v3.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="d3.tip.min.js"></script>
+<script type="text/javascript" src="loan.js"></script>
+<script type="text/javascript" src="jquery-1.11.0.min.js"></script>
+
+</body>
+</html>
