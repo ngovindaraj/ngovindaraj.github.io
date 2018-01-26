@@ -83,13 +83,13 @@ d3.csv("for_d3_loan.csv", function (error, csv) {
     .x(d3.scale.ordinal().domain([
       "MI", "NJ", "CA", "MD", "PA", "NC", "TX", "GA", "NY", "FL", "IL", "OH", "VA"
         ]))
-    .gap(6)
+    .gap(10)
     .elasticY(true)
     .xUnits(dc.units.ordinal)
     .ordinalColors(["#1b9e77","#d95f02","#7570b3","#e7298a","#66a61e","#e6ab02","#a6761d","#666666","#49006a"])
     .title(function () { return ""; })
     .brushOn(false)
-    .elasticX(true).xAxis().ticks(4);
+    .elasticX(true).xAxis().ticks(0);
 
   annual_incChart.width(200).height(200)
     .transitionDuration(1000)
