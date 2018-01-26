@@ -75,7 +75,7 @@ d3.csv("for_d3_loan.csv", function (error, csv) {
     .legend(dc.legend().x(50).y(0))
     .renderLabel(false);
 
-  addr_stateChart.width(400).height(260)
+  addr_stateChart.width(800).height(260)
     .margins({top: 10, right: 40, bottom: 30, left: 120})
     .transitionDuration(1000)
     .dimension(addr_states).group(addr_statesCount)
@@ -83,6 +83,8 @@ d3.csv("for_d3_loan.csv", function (error, csv) {
     .x(d3.scale.ordinal().domain([
       "MI", "NJ", "CA", "MD", "PA", "NC", "TX", "GA", "NY", "FL", "IL", "OH", "VA"
         ]))
+    .gap(6)
+    .elasticY(true)
     .xUnits(dc.units.ordinal)
     .ordinalColors(["#1b9e77","#d95f02","#7570b3","#e7298a","#66a61e","#e6ab02","#a6761d","#666666","#49006a"])
     .title(function () { return ""; })
@@ -98,7 +100,7 @@ d3.csv("for_d3_loan.csv", function (error, csv) {
     .legend(dc.legend().x(50).y(0))
     .renderLabel(false);
 
-  int_rateChart.width(400).height(260)
+  int_rateChart.width(600).height(260)
     .margins({top: 10, right: 120, bottom: 30, left: 120}).transitionDuration(1000)
     .dimension(int_rates).group(int_ratesCount)
     .ordinalColors(["#1b9e77","#d95f02","#7570b3","#e7298a","#66a61e","#e6ab02","#a6761d","#666666","#49006a"])
@@ -107,7 +109,7 @@ d3.csv("for_d3_loan.csv", function (error, csv) {
     .elasticX(true)
     .xAxis().ticks(4);
 
-  loan_amountChart.width(400).height(260)
+  loan_amountChart.width(600).height(260)
     .margins({top: 10, right: 40, bottom: 30, left: 120})
     .transitionDuration(1000)
     .dimension(loan_amounts).group(loan_amountsCount)
