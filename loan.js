@@ -177,14 +177,14 @@ d3.csv("for_d3_loan.csv", function (error, csv) {
   dc.renderAll();
 
   //set up the tool tips
-  d3.selectAll(".pie-slice").call(pieTip);
-  d3.selectAll(".pie-slice").on('mouseover', pieTip.show)
-    .on('mouseout', pieTip.hide);
-  d3.selectAll("g.row").call(barTip);
-  d3.selectAll("g.row").on('mouseover', barTip.show)
-    .on('mouseout', barTip.hide);
-  d3.selectAll("#series-chart circle.dot").call(seriesTip);
-  d3.selectAll("#series-chart circle.dot")
-    .on('mouseover.foo', seriesTip.show)
-    .on('mouseout.foo', seriesTip.hide);
+//   d3.selectAll(".pie-slice").call(pieTip);
+//   d3.selectAll(".pie-slice").on('mouseover', pieTip.show)
+//     .on('mouseout', pieTip.hide);
+//   d3.selectAll("g.row").call(barTip);
+//   d3.selectAll("g.row").on('mouseover', barTip.show)
+//     .on('mouseout', barTip.hide);
+//   d3.selectAll("#series-chart circle.dot").call(seriesTip);
+//   d3.selectAll("#series-chart circle.dot")
+//     .on('mouseover.foo', seriesTip.show)
+//     .on('mouseout.foo', seriesTip.hide);
 });
